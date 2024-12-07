@@ -1,0 +1,8 @@
+2024-12-03 16:29:35 | Client #1 | Prodotto: Scarpa_Blu | Stato: Acquisto completato | Disponibilità rimanente: 2
+2024-12-03 16:30:23 | Client #1 | Prodotto: Pantalone_Nero | Stato: Acquisto completato | Disponibilità rimanente: 3
+2024-12-03 16:32:45 | Client #1 | Prodotto: Pantalone_Blu | Stato: Acquisto completato | Disponibilità rimanente: 22024-12-03 16:32:59 | Client #2 | Prodotto: Pantalone_Blu | Stato: Acquisto completato | Disponibilità rimanente: 12024-12-03 16:33:45 | Client #3 | Prodotto: Pantalone_Blu | Stato: Acquisto completato | Disponibilità rimanente: 02024-12-03 16:33:49 | Client #4 | Prodotto: Pantalone_Blu | Stato: Prodotto esaurito | Disponibilità rimanente: 02024-12-03 16:41:17 | Client #1 | Prodotto: Scarpa_Verde | Stato: Acquisto completato | Disponibilità rimanente: 0
+2024-12-03 16:41:29 | Client #2 | Prodotto: Pantalone_Nero | Stato: Acquisto completato | Disponibilità rimanente: 3
+2024-12-03 16:41:37 | Client #3 | Prodotto: Scarpa_Verde | Stato: Prodotto esaurito | Disponibilità rimanente: 0
+2024-12-03 18:21:42 | Client #1 | Prodotto: Maglietta_Verde | Stato: Acquisto completato | Disponibilità rimanente: 3
+2024-12-03 18:21:46 | Client #2 | Prodotto: Maglietta_Nero | Stato: Acquisto completato | Disponibilità rimanente: 1
+2024-12-03 18:22:03 | Client #3 | Prodotto: Maglietta_Rosso | Stato: Acquisto completato | Disponibilità rimanente: 4
