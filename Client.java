@@ -165,17 +165,9 @@ public class Client {
         detailsPanel.add(new JLabel("Prezzo: " + price));
         newFrame.add(detailsPanel, BorderLayout.SOUTH);
 
-        JButton buttonLogin = new JButton("vai al carrello");
-        buttonLogin.addActionListener(e -> {
-            String nomeProdotto = title;
-            double prezzoProdotto = Double.parseDouble(price.replace("€", "").trim()); // Rimuovi il simbolo dell'euro e converti in double
-            String tagliaProdotto = comboBoxTaglie.getSelectedItem().toString();
-            String immagineProdotto= imagePath;
-            Prodotto prodotto = new Prodotto(nomeProdotto, prezzoProdotto, tagliaProdotto, immagineProdotto);
-            FrameCarrello.aggiungiProdotto(prodotto);
-            JOptionPane.showMessageDialog(newFrame, "Prodotto aggiunto al carrello!");
+        JButton vaiCarrelloButton = new JButton("vai al carrello");
+        vaiCarrelloButton.addActionListener(e -> {
             FrameCarrello.mostraCarrello();
-
         });
 
         JButton buttonCarrello = new JButton("aggiungi al carrello");
@@ -192,7 +184,7 @@ public class Client {
         chiudiButton.addActionListener(e -> newFrame.dispose());
 
         JPanel buttonPanel = new JPanel();
-        buttonPanel.add(buttonLogin);
+        buttonPanel.add(vaiCarrelloButton);
         buttonPanel.add(chiudiButton);
         buttonPanel.add(buttonCarrello);
 
