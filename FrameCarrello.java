@@ -7,29 +7,38 @@ class Prodotto {
     private double prezzo;
     private String taglia;
     private String immagine;
-    public Prodotto(String nome, double prezzo, String taglia, String immagine) {
+    private String colore;
+
+    public Prodotto(String nome, double prezzo, String taglia, String colore, String immagine) {
         this.nome = nome;
         this.prezzo = prezzo;
         this.taglia = taglia;
+        this.colore = colore;
         this.immagine = immagine;
     }
+
     public String getNome() {
         return nome;
     }
+
     public double getPrezzo() {
         return prezzo;
     }
+
     public String getTaglia() {
         return taglia;
     }
-    public String getImmagine() {
-        return immagine;
-    }
+
+    public String getImmagine() {return immagine;}
+
+    public String getColore() {return colore;}
+
     @Override
     public String toString() {
         return nome + " - " + taglia + " - " + String.format("€%.2f", prezzo);
     }
 }
+
 public class FrameCarrello extends JFrame {
     private static ArrayList<Prodotto> carrello = new ArrayList<>();
     private static JFrame carrelloFrame;
@@ -59,8 +68,59 @@ public class FrameCarrello extends JFrame {
         JButton chiudiButton = new JButton("Chiudi");
         chiudiButton.addActionListener(e -> carrelloFrame.dispose());
         carrelloPanel.add(chiudiButton);
-        JButton acqusitaButton = new JButton("acquaista");
-        acqusitaButton.addActionListener(e -> carrelloFrame.dispose());
+
+        JButton acqusitaButton = new JButton("Acquista");
+        if (carrello.isEmpty()) {
+            acqusitaButton.setVisible(false);
+        } else {
+            acqusitaButton.addActionListener(e -> {
+                // Crea il frame login e specifica cosa fare dopo il successo del login
+                FrameLogin frameLogin = new FrameLogin(() -> {
+                    // Invio dei dati al server dopo il login
+                    try {
+                        // Crea un'istanza di ClientService
+                        ClientService clientService = new ClientService("localhost", 12345);
+
+                        if (clientService.connect()) {
+                            System.out.println("Connesso al server!");
+
+                            // Prepara i dati del carrello come stringa
+                            StringBuilder datiCarrello = new StringBuilder();
+                            for (Prodotto prodotto : carrello) {
+                                datiCarrello.append(prodotto.getNome())
+                                        .append(", ")
+                                        .append(prodotto.getPrezzo())
+                                        .append(", ")
+                                        .append(prodotto.getTaglia())
+                                        .append(", ")
+                                        .append(prodotto.getColore())
+                                        .append("\n");
+                            }
+
+                            // Invia i dati al server
+                            clientService.sendMessage("Dati Carrello:\n" + datiCarrello.toString());
+
+                            // Ricezione della risposta dal server
+                            String response = clientService.receiveMessage();
+                            System.out.println("Risposta dal server: " + response);
+
+                            clientService.close();
+
+                            // Mostra un messaggio di conferma
+                            JOptionPane.showMessageDialog(carrelloFrame, "Acquisto completato!");
+                            carrello.clear(); // Svuota il carrello dopo l'acquisto
+                            carrelloFrame.dispose(); // Chiudi il carrello
+                        } else {
+                            JOptionPane.showMessageDialog(carrelloFrame, "Impossibile connettersi al server.", "Errore", JOptionPane.ERROR_MESSAGE);
+                        }
+                    } catch (Exception ex) {
+                        JOptionPane.showMessageDialog(carrelloFrame, "Errore durante l'invio dei dati: " + ex.getMessage(), "Errore", JOptionPane.ERROR_MESSAGE);
+                    }
+                });
+                frameLogin.setVisible(true);
+            });
+        }
+        carrelloPanel.add(acqusitaButton);
 
         carrelloFrame.add(new JScrollPane(carrelloPanel));
         carrelloFrame.setVisible(true);
