@@ -7,7 +7,7 @@ import java.io.IOException;
 import java.util.Timer;
 import java.util.TimerTask;
 
-class Carrello {//-----------------------------------
+class Carrello {
     private java.util.List<Prodotto> prodotti = new ArrayList<>();
     private double totale = 0;
 

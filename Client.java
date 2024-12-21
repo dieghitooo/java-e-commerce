@@ -24,35 +24,115 @@ public class Client {
 
 
         // Magazzino prodotti (simulato)
-        HashMap<String, HashMap<String, Integer>> magazzino = new HashMap<>();
-        HashMap<String, Integer> magliettaColori = new HashMap<>();
-        magliettaColori.put("Rosso", 10);
-        magliettaColori.put("Blu", 5);
-        magliettaColori.put("Verde", 8);
-        magliettaColori.put("Nero", 12);
+        public HashMap<String, HashMap<String, Integer>> magazzino;
 
-        HashMap<String, Integer> pantaloneColori = new HashMap<>();
-        pantaloneColori.put("Rosso", 3);
-        pantaloneColori.put("Blu", 7);
-        pantaloneColori.put("Verde", 6);
-        pantaloneColori.put("Nero", 9);
+    public void Magazzino() {
+            magazzino = new HashMap<>();
 
-        HashMap<String, Integer> scarpeColori = new HashMap<>();
-        scarpeColori.put("Rosso", 5);
-        scarpeColori.put("Blu", 2);
-        scarpeColori.put("Verde", 9);
-        scarpeColori.put("Nero", 1);
+            // Maglietta
+            HashMap<String, Integer> magliettaColoriTaglie = new HashMap<>();
+            magliettaColoriTaglie.put("XS-Rosso", 10);
+            magliettaColoriTaglie.put("S-Rosso", 10);
+            magliettaColoriTaglie.put("M-Rosso", 10);
+            magliettaColoriTaglie.put("L-Rosso", 10);
+            magliettaColoriTaglie.put("XL-Rosso", 10);
+            magliettaColoriTaglie.put("XS-Blu", 5);
+            magliettaColoriTaglie.put("S-Blu", 5);
+            magliettaColoriTaglie.put("M-Blu", 5);
+            magliettaColoriTaglie.put("L-Blu", 5);
+            magliettaColoriTaglie.put("XL-Blu", 5);
+            magliettaColoriTaglie.put("XS-Verde", 10);
+            magliettaColoriTaglie.put("S-Verde", 10);
+            magliettaColoriTaglie.put("M-Verde", 10);
+            magliettaColoriTaglie.put("L-Verde", 10);
+            magliettaColoriTaglie.put("XL-Verde", 10);
+            magliettaColoriTaglie.put("XS-Nero", 5);
+            magliettaColoriTaglie.put("S-Nero", 5);
+            magliettaColoriTaglie.put("M-Nero", 5);
+            magliettaColoriTaglie.put("L-Nero", 5);
+            magliettaColoriTaglie.put("XL-Nero", 5);
 
-        HashMap<String, Integer> giaccaColori = new HashMap<>();
-        giaccaColori.put("Rosso", 2);
-        giaccaColori.put("Blu", 7);
-        giaccaColori.put("Verde", 1);
-        giaccaColori.put("Nero", 4);
+            // Aggiungi "Maglietta" al magazzino
+            magazzino.put("Maglietta", magliettaColoriTaglie);
 
-        magazzino.put("Maglietta", magliettaColori);
-        magazzino.put("Pantalone", pantaloneColori);
-        magazzino.put("Scarpe", scarpeColori);
-        magazzino.put("Giacca", giaccaColori);
+            // Pantalone
+            HashMap<String, Integer> pantaloneColoriTaglie = new HashMap<>();
+            pantaloneColoriTaglie.put("XS-Rosso", 3);
+            pantaloneColoriTaglie.put("S-Rosso", 3);
+            pantaloneColoriTaglie.put("M-Rosso", 3);
+            pantaloneColoriTaglie.put("L-Rosso", 3);
+            pantaloneColoriTaglie.put("XL-Rosso", 3);
+            pantaloneColoriTaglie.put("XS-Blu", 3);
+            pantaloneColoriTaglie.put("S-Blu", 3);
+            pantaloneColoriTaglie.put("M-Blu", 3);
+            pantaloneColoriTaglie.put("L-Blu", 3);
+            pantaloneColoriTaglie.put("XL-Blu", 3);
+            pantaloneColoriTaglie.put("XS-Verde", 3);
+            pantaloneColoriTaglie.put("S-Verde", 3);
+            pantaloneColoriTaglie.put("M-Verde", 3);
+            pantaloneColoriTaglie.put("L-Verde", 3);
+            pantaloneColoriTaglie.put("XL-Verde", 3);
+            pantaloneColoriTaglie.put("XS-Nero", 3);
+            pantaloneColoriTaglie.put("S-Nero", 3);
+            pantaloneColoriTaglie.put("M-Nero", 3);
+            pantaloneColoriTaglie.put("L-Nero", 3);
+            pantaloneColoriTaglie.put("XL-Nero", 3);
+
+            // Aggiungi "Pantalone" al magazzino
+            magazzino.put("Pantalone", pantaloneColoriTaglie);
+
+            // Scarpa
+            HashMap<String, Integer> scarpaColoriTaglie = new HashMap<>();
+            scarpaColoriTaglie.put("XS-Rosso", 3);
+            scarpaColoriTaglie.put("S-Rosso", 3);
+            scarpaColoriTaglie.put("M-Rosso", 3);
+            scarpaColoriTaglie.put("L-Rosso", 3);
+            scarpaColoriTaglie.put("XL-Rosso", 3);
+            scarpaColoriTaglie.put("XS-Blu", 3);
+            scarpaColoriTaglie.put("S-Blu", 3);
+            scarpaColoriTaglie.put("M-Blu", 3);
+            scarpaColoriTaglie.put("L-Blu", 3);
+            scarpaColoriTaglie.put("XL-Blu", 3);
+            scarpaColoriTaglie.put("XS-Verde", 3);
+            scarpaColoriTaglie.put("S-Verde", 3);
+            scarpaColoriTaglie.put("M-Verde", 3);
+            scarpaColoriTaglie.put("L-Verde", 3);
+            scarpaColoriTaglie.put("XL-Verde", 3);
+            scarpaColoriTaglie.put("XS-Nero", 3);
+            scarpaColoriTaglie.put("S-Nero", 3);
+            scarpaColoriTaglie.put("M-Nero", 3);
+            scarpaColoriTaglie.put("L-Nero", 3);
+            scarpaColoriTaglie.put("XL-Nero", 3);
+
+            // Aggiungi "Scarpa" al magazzino
+            magazzino.put("Scarpa", scarpaColoriTaglie);
+
+            // Giacca
+            HashMap<String, Integer> giaccaColoriTaglie = new HashMap<>();
+            giaccaColoriTaglie.put("XS-Rosso", 3);
+            giaccaColoriTaglie.put("S-Rosso", 3);
+            giaccaColoriTaglie.put("M-Rosso", 3);
+            giaccaColoriTaglie.put("L-Rosso", 3);
+            giaccaColoriTaglie.put("XL-Rosso", 3);
+            giaccaColoriTaglie.put("XS-Blu", 3);
+            giaccaColoriTaglie.put("S-Blu", 3);
+            giaccaColoriTaglie.put("M-Blu", 3);
+            giaccaColoriTaglie.put("L-Blu", 3);
+            giaccaColoriTaglie.put("XL-Blu", 3);
+            giaccaColoriTaglie.put("XS-Verde", 3);
+            giaccaColoriTaglie.put("S-Verde", 3);
+            giaccaColoriTaglie.put("M-Verde", 3);
+            giaccaColoriTaglie.put("L-Verde", 3);
+            giaccaColoriTaglie.put("XL-Verde", 3);
+            giaccaColoriTaglie.put("XS-Nero", 3);
+            giaccaColoriTaglie.put("S-Nero", 3);
+            giaccaColoriTaglie.put("M-Nero", 3);
+            giaccaColoriTaglie.put("L-Nero", 3);
+            giaccaColoriTaglie.put("XL-Nero", 3);
+
+            // Aggiungi "Giacca" al magazzino
+            magazzino.put("Giacca", giaccaColoriTaglie);
+        }
 
         // Creazione delle immagini
         ImageIcon resizedMaglia = resizeImage("immagini/magliaJava.jpg", 500, 400);
