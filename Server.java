@@ -33,14 +33,14 @@ public class Server {
                 BufferedReader input = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
                 PrintWriter output = new PrintWriter(clientSocket.getOutputStream(), true)
         ) {
-            // Imposta un timeout sul socket per evitare connessioni pendenti
-            clientSocket.setSoTimeout(30000); // Timeout di 30 secondi
+
+            clientSocket.setSoTimeout(300000);
             String message;
             System.out.println("In attesa di messaggi dal client...");
 
             // Riceve messaggi dal client
             while ((message = input.readLine()) != null) {
-                System.out.println("Messaggio ricevuto: " + message);
+                System.out.println(message);
 
                 // Risponde al client
                 output.println("Server ricevuto: " + message);

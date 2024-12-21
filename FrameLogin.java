@@ -6,7 +6,9 @@ import java.awt.event.ActionListener;
 
 public class FrameLogin extends JFrame {
     private final Runnable onLoginSuccess;
-
+    private static String username;
+    private static String numero;
+    private static String email;
     public FrameLogin(Runnable onLoginSuccess) {
         super("Login");
         this.onLoginSuccess = onLoginSuccess;
@@ -174,7 +176,13 @@ public class FrameLogin extends JFrame {
                     JOptionPane.showMessageDialog(FrameLogin.this, "Il campo Numero telefonico è obbligatorio.", "Errore di validazione", JOptionPane.ERROR_MESSAGE);
                     return;
                 }
+                try {
+                    FrameCarrello.scontrino(username,email,indirizzo,numero);
+                    System.out.println("Scontrino generaro");
+                }catch (Exception ex){
+                    JOptionPane.showMessageDialog(FrameLogin.this, "errore" + ex.getMessage(), "errore", JOptionPane.ERROR_MESSAGE);
 
+                }
                 dispose();
                 if (onLoginSuccess != null) {
                     onLoginSuccess.run();

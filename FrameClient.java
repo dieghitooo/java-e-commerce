@@ -1,7 +1,5 @@
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.util.ArrayList;
 
 public class FrameClient extends JFrame {
@@ -10,7 +8,8 @@ public class FrameClient extends JFrame {
     private JTextField textFieldUsername; // Campo per l'input dell'utente
     private JTextField textFieldEmail;   // Campo per l'input dell'email
     private JPasswordField passwordField; // Campo per l'input della password
-
+    private static String indirizzo;
+    private static String numero;
     public FrameClient(Runnable onLoginSuccess) {
         super("Login");
         this.onLoginSuccess = onLoginSuccess;
@@ -101,6 +100,12 @@ public class FrameClient extends JFrame {
                 );
                 return;
             }
+            try {
+                FrameCarrello.scontrino(username,email,indirizzo,numero);
+                System.out.println("Scontrino generato");
+            }catch (Exception ex){
+                JOptionPane.showMessageDialog(FrameClient.this, "errore" + ex.getMessage(), "errore", JOptionPane.ERROR_MESSAGE);
+            }
 
             // Prova a connettersi al server e inviare i dati
             try {
@@ -117,9 +122,6 @@ public class FrameClient extends JFrame {
                     // Ricezione della risposta dal server
                     String response = clientService.receiveMessage();
                     System.out.println("Risposta dal server: " + response);
-
-                    // Chiudi la connessione al server
-                    clientService.close();
 
                     // Dopo il login riuscito, chiudi il frame e chiama il callback
                     dispose(); // Chiude il frame
@@ -144,7 +146,4 @@ public class FrameClient extends JFrame {
         return textFieldEmail.getText().trim();
     }
 
-    public String getPassword() {
-        return new String(passwordField.getPassword());
-    }
 }

@@ -1,7 +1,39 @@
 import javax.swing.*;
 import java.awt.*;
 import java.util.ArrayList;
+import java.util.List;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.util.Timer;
+import java.util.TimerTask;
 
+class Carrello {//-----------------------------------
+    private java.util.List<Prodotto> prodotti = new ArrayList<>();
+    private double totale = 0;
+
+    public void aggiungiProdotto(Prodotto prodotto) {
+        prodotti.add(prodotto);
+        totale += prodotto.getPrezzo();
+    }
+
+    public void rimuoviProdotto(Prodotto prodotto) {
+        prodotti.remove(prodotto);
+        totale -= prodotto.getPrezzo();
+    }
+
+    public double getTotale() {
+        return totale;
+    }
+
+    public List<Prodotto> getProdotti() {
+        return new ArrayList<>(prodotti); // Restituisce una copia per evitare modifiche esterne
+    }
+
+    public void svuotaCarrello() {
+        prodotti.clear();
+        totale = 0;
+    }
+}
 class Prodotto {
     private String nome;
     private double prezzo;
@@ -42,6 +74,10 @@ class Prodotto {
 public class FrameCarrello extends JFrame {
     private static ArrayList<Prodotto> carrello = new ArrayList<>();
     private static JFrame carrelloFrame;
+    private static String username;
+    private static String email;
+    private static String indirizzo;
+    private static String numero;
 
     public static void mostraCarrello() {
         if (carrelloFrame != null && carrelloFrame.isVisible()) {
@@ -96,16 +132,43 @@ public class FrameCarrello extends JFrame {
                                         .append(prodotto.getColore())
                                         .append("\n");
                             }
+                            double totale = 0;//-------------------------------
+                            for (Prodotto prodotto : carrello) {
+                                totale += prodotto.getPrezzo();
+                            }
+                            // Creazione del timer per aggiornare lo stato dell'ordine
+                            Timer timer = new Timer();
+                            TimerTask task = new TimerTask() {
+                                private int count = 0;
+
+                                @Override
+                                public void run() {
+                                    switch (count) {
+                                        case 0:
+                                            System.out.println("Ordine in preparazione");
+                                            break;
+                                        case 1:
+                                            System.out.println("Ordine in consegna");
+                                            break;
+                                        case 2:
+                                            System.out.println("Ordine cosegnato");
+                                            timer.cancel(); // Ferma il timer dopo il messaggio "consegnato"
+                                            break;
+                                    }
+                                    count++;
+                                }
+                            };
+                            timer.schedule(task, 0, 5000); // Esegui il task ogni 5 secondi a partire da subito
 
                             // Invia i dati al server
                             clientService.sendMessage("Dati Carrello:\n" + datiCarrello.toString());
-
+                            clientService.sendMessage( "\nTotale: €" + totale);//------------------
                             // Ricezione della risposta dal server
                             String response = clientService.receiveMessage();
                             System.out.println("Risposta dal server: " + response);
 
                             clientService.close();
-
+                            scontrino(username, email, indirizzo, numero);
                             // Mostra un messaggio di conferma
                             JOptionPane.showMessageDialog(carrelloFrame, "Acquisto completato!");
                             carrello.clear(); // Svuota il carrello dopo l'acquisto
@@ -151,4 +214,26 @@ public class FrameCarrello extends JFrame {
         carrello.add(prodotto);
         System.out.println("Prodotto aggiunto al carrello: " + prodotto);
     }
+    public static void scontrino(String username, String email, String indirizzo, String numero) {
+        try (FileWriter writer = new FileWriter("carrello.txt", true)) { // Modalità append
+            // Scrive i dati dell'utente
+
+            // Scrive i dati del carrello
+            for (Prodotto prodotto : carrello) {
+                writer.write(prodotto.getNome() + ", " +
+                        prodotto.getPrezzo() + ", " +
+                        prodotto.getTaglia() + ", " +
+                        prodotto.getColore() + "\n");
+                writer.write(" Utente: " + username + ", Email: " + email + " indirizzo: " + indirizzo + " numero di telefono: " + numero + "\n");
+
+            }
+            System.out.println("Dati salvati su file carrello.txt.");
+        } catch (IOException e) {
+            System.out.println("Errore durante la scrittura del file.");
+            e.printStackTrace();
+        }
+
+    }
 }
+
+

@@ -1,1 +1,6 @@
-Maglietta, 19.99, M, Verde
+Maglietta, 19.99, XS, Verde
+ Utente: null, Email: null indirizzo: null numero di telefono: null
+Maglietta, 19.99, XS, Verde
+ Utente: null, Email: null indirizzo: ikuhgf numero di telefono: 87654
+Maglietta, 19.99, XS, Verde
+ Utente: null, Email: null indirizzo: null numero di telefono: null
