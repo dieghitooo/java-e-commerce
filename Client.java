@@ -2,10 +2,6 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.io.*;
-import java.net.*;
 import java.util.HashMap;
 
 public class Client {
@@ -15,28 +11,61 @@ public class Client {
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setSize(800, 600);
         frame.setLayout(new GridBagLayout());
+        frame.setVisible(false);
 
-        JFrame frameCarrello = new JFrame("Ecco il tuo carrello");
-        frameCarrello.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-        frameCarrello.setSize(800, 600);
-        frameCarrello.setLayout(new GridBagLayout());
-        frameCarrello.setVisible(false);
+        FrameClient frameClient = new FrameClient(() -> {
+            // Azione da eseguire al successo del login
+            frame.setVisible(true); // Mostra la finestra principale dopo il login
+        });
+
+        // Mostra la finestra di login
+        frameClient.setVisible(true);
+
+
 
         // Magazzino prodotti (simulato)
-        HashMap<String, Integer> magazzino = new HashMap<>();
+        HashMap<String, HashMap<String, Integer>> magazzino = new HashMap<>();
+        HashMap<String, Integer> magliettaColori = new HashMap<>();
+        magliettaColori.put("Rosso", 10);
+        magliettaColori.put("Blu", 5);
+        magliettaColori.put("Verde", 8);
+        magliettaColori.put("Nero", 12);
+
+        HashMap<String, Integer> pantaloneColori = new HashMap<>();
+        pantaloneColori.put("Rosso", 3);
+        pantaloneColori.put("Blu", 7);
+        pantaloneColori.put("Verde", 6);
+        pantaloneColori.put("Nero", 9);
+
+        HashMap<String, Integer> scarpeColori = new HashMap<>();
+        scarpeColori.put("Rosso", 5);
+        scarpeColori.put("Blu", 2);
+        scarpeColori.put("Verde", 9);
+        scarpeColori.put("Nero", 1);
+
+        HashMap<String, Integer> giaccaColori = new HashMap<>();
+        giaccaColori.put("Rosso", 2);
+        giaccaColori.put("Blu", 7);
+        giaccaColori.put("Verde", 1);
+        giaccaColori.put("Nero", 4);
+
+        magazzino.put("Maglietta", magliettaColori);
+        magazzino.put("Pantalone", pantaloneColori);
+        magazzino.put("Scarpe", scarpeColori);
+        magazzino.put("Giacca", giaccaColori);
 
         // Creazione delle immagini
-        ImageIcon resizedMaglia = resizeImage("magliaJava.jpg", 500, 400);
+        ImageIcon resizedMaglia = resizeImage("immagini/magliaJava.jpg", 500, 400);
         JLabel imageLabel = new JLabel(resizedMaglia);
-        ImageIcon resizedPantalone = resizeImage("pantaloneJava.jpg", 500, 400);
+        ImageIcon resizedPantalone = resizeImage("immagini/pantaloneJava.jpg", 500, 400);
         JLabel imageLabel1 = new JLabel(resizedPantalone);
-        ImageIcon resizedScarpa = resizeImage("scarpaJava.jpg", 500, 400);
+        ImageIcon resizedScarpa = resizeImage("immagini/scarpaJava.jpg", 500, 400);
         JLabel imageLabel2 = new JLabel(resizedScarpa);
-        ImageIcon resizedGiacca = resizeImage("giaccaJava.jpg", 500, 400);
+        ImageIcon resizedGiacca = resizeImage("immagini/giaccaJava.jpg", 500, 400);
         JLabel imageLabel3 = new JLabel(resizedGiacca);
 
         // Logo
-        ImageIcon imageIcon4 = new ImageIcon("logoJava.jpg");
+        ImageIcon imageIcon4 = new ImageIcon("immagini/logoJava.jpg");
         Image logoImage = imageIcon4.getImage().getScaledInstance(1000, 300, Image.SCALE_SMOOTH);
         ImageIcon resizedLogo = new ImageIcon(logoImage);
         JLabel imageLabel4 = new JLabel(resizedLogo);
@@ -45,10 +74,10 @@ public class Client {
         logoPanel.setBackground(Color.WHITE);
         logoPanel.add(imageLabel4);
         mostraNegozio(frame, logoPanel, magazzino, imageLabel, imageLabel1, imageLabel2, imageLabel3);
-        frame.setVisible(true);
+
     }
 
-    private static void mostraNegozio(JFrame frame, JPanel logoPanel, HashMap<String, Integer> magazzino, JLabel... imageLabels) {
+    private static void mostraNegozio(JFrame frame, JPanel logoPanel, HashMap<String, HashMap<String, Integer>> magazzino, JLabel... imageLabels) {
         GridBagConstraints gbc = new GridBagConstraints(); // Dichiarazione e inizializzazione di gbc
         gbc.insets = new Insets(5, 10, 10, 10);
         gbc.fill = GridBagConstraints.CENTER;
@@ -62,7 +91,7 @@ public class Client {
 
         // Associa un prodotto a ogni immagine
         String[] prodotti = {"Maglietta", "Pantalone", "Scarpa", "Giacca"};
-        String[] immagini = {"magliaJava.jpg", "pantaloneJava.jpg", "scarpaJava.jpg", "giaccaJava.jpg"};
+        String[] immagini = {"immagini/magliaJava.jpg", "immagini/pantaloneJava.jpg", "immagini/scarpaJava.jpg", "immagini/giaccaJava.jpg"};
         String[] prezzi = {"€19.99", "€29.99", "€39.99", "€49.99"};
 
         for (int i = 0; i < imageLabels.length; i++) {
@@ -76,7 +105,7 @@ public class Client {
             ));
         }
 
-        frame.setVisible(true);
+        frame.setVisible(false);
     }
 
     private static class ProductClickListener implements MouseListener {
@@ -84,9 +113,9 @@ public class Client {
         private final String immagine;
         private final String descrizione;
         private final String prezzo;
-        private final HashMap<String, Integer> magazzino;
+        private final HashMap<String, HashMap<String, Integer>> magazzino;
 
-        public ProductClickListener(String prodotto, String immagine, String descrizione, String prezzo, HashMap<String, Integer> magazzino) {
+        public ProductClickListener(String prodotto, String immagine, String descrizione, String prezzo, HashMap<String, HashMap<String, Integer>> magazzino) {
             this.prodotto = prodotto;
             this.immagine = immagine;
             this.descrizione = descrizione;
@@ -99,7 +128,6 @@ public class Client {
             // Mostra i dettagli del prodotto cliccato
             showProductDetails(prodotto, immagine, descrizione, prezzo, magazzino);
         }
-
         @Override
         public void mousePressed(MouseEvent e) {
         }
@@ -118,7 +146,7 @@ public class Client {
     }
 
     private static void showProductDetails(String title, String imagePath, String description, String price,
-                                           HashMap<String, Integer> magazzino) {
+                                           HashMap<String, HashMap<String, Integer>> magazzino) {
         JFrame newFrame = new JFrame(title);
         newFrame.setSize(400, 400);
         newFrame.setLayout(new BorderLayout());
@@ -127,7 +155,7 @@ public class Client {
         optionsPanel.setLayout(new GridLayout(2, 1));
 
         // Menu a tendina per la scelta della taglia
-        String[] taglie = {"XS", "S", "M", "L", "XL"};
+        String[] taglie = {"","XS", "S", "M", "L", "XL"};
         JComboBox<String> comboBoxTaglie = new JComboBox<>(taglie);
         JPanel panelTaglia = new JPanel();
         panelTaglia.add(new JLabel("Taglia:"));
@@ -171,15 +199,46 @@ public class Client {
         });
 
         JButton buttonCarrello = new JButton("aggiungi al carrello");
-        buttonCarrello.addActionListener(e ->{
-            String nomeProdotto = title;
-            double prezzoProdotto = Double.parseDouble(price.replace("€", "").trim()); // Rimuovi il simbolo dell'euro e converti in double
+        buttonCarrello.addActionListener(e -> {
             String tagliaProdotto = comboBoxTaglie.getSelectedItem().toString();
-            String immagineProdotto= imagePath;
-            Prodotto prodotto = new Prodotto(nomeProdotto, prezzoProdotto, tagliaProdotto, immagineProdotto);
+            if (tagliaProdotto.isEmpty()) {
+                JOptionPane.showMessageDialog(newFrame, "Seleziona una taglia prima di aggiungere al carrello.", "Errore", JOptionPane.ERROR_MESSAGE);
+                return;
+            }
+
+            String coloreProdotto = "";
+            if (rossoButton.isSelected()) {
+                coloreProdotto = "Rosso";
+            } else if (bluButton.isSelected()) {
+                coloreProdotto = "Blu";
+            } else if (verdeButton.isSelected()) {
+                coloreProdotto = "Verde";
+            } else if (neroButton.isSelected()) {
+                coloreProdotto = "Nero";
+            } else {
+                JOptionPane.showMessageDialog(newFrame, "Seleziona un colore prima di aggiungere al carrello.", "Errore", JOptionPane.ERROR_MESSAGE);
+                return;
+            }
+
+            // Controlla la disponibilità per il colore selezionato
+            HashMap<String, Integer> quantitaPerColore = magazzino.get(title);
+            if (quantitaPerColore == null || quantitaPerColore.getOrDefault(coloreProdotto, 0) <= 0) {
+                JOptionPane.showMessageDialog(newFrame, "Prodotto non disponibile nel colore selezionato!", "Errore", JOptionPane.ERROR_MESSAGE);
+                return;
+            }
+
+            // Aggiorna il magazzino
+            int quantitaRimasta = quantitaPerColore.get(coloreProdotto) - 1;
+            quantitaPerColore.put(coloreProdotto, quantitaRimasta);
+
+            // Mostra messaggio di successo
+            JOptionPane.showMessageDialog(newFrame, "Prodotto aggiunto al carrello! Quantità rimasta per " + coloreProdotto + ": " + quantitaRimasta);
+
+            // Aggiungi prodotto al carrello
+            Prodotto prodotto = new Prodotto(title, Double.parseDouble(price.replace("€", "").trim()), tagliaProdotto, coloreProdotto, imagePath);
             FrameCarrello.aggiungiProdotto(prodotto);
-            JOptionPane.showMessageDialog(newFrame, "Prodotto aggiunto al carrello!");
         });
+
         JButton chiudiButton = new JButton("chiudi");
         chiudiButton.addActionListener(e -> newFrame.dispose());
 

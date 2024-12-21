@@ -10,12 +10,16 @@ public class Server {
             System.out.println("Server in ascolto sulla porta " + port);
 
             while (true) {
-                // Accetta una connessione da un client
-                Socket clientSocket = serverSocket.accept();
-                System.out.println("Connessione accettata da " + clientSocket.getInetAddress());
+                try {
+                    // Accetta una connessione da un client
+                    Socket clientSocket = serverSocket.accept();
+                    System.out.println("Connessione accettata da " + clientSocket.getInetAddress());
 
-                // Gestisce la comunicazione con il client
-                handleClient(clientSocket);
+                    // Gestisce la comunicazione con il client in un nuovo thread
+                    new Thread(() -> handleClient(clientSocket)).start();
+                } catch (IOException e) {
+                    System.err.println("Errore nell'accettazione della connessione: " + e.getMessage());
+                }
             }
         } catch (IOException e) {
             System.err.println("Errore del server: " + e.getMessage());
@@ -29,6 +33,8 @@ public class Server {
                 BufferedReader input = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
                 PrintWriter output = new PrintWriter(clientSocket.getOutputStream(), true)
         ) {
+            // Imposta un timeout sul socket per evitare connessioni pendenti
+            clientSocket.setSoTimeout(30000); // Timeout di 30 secondi
             String message;
             System.out.println("In attesa di messaggi dal client...");
 
@@ -45,12 +51,14 @@ public class Server {
                     break;
                 }
             }
+        } catch (java.net.SocketTimeoutException e) {
+            System.err.println("Timeout: nessun messaggio ricevuto dal client entro il tempo limite.");
         } catch (IOException e) {
             System.err.println("Errore durante la comunicazione con il client: " + e.getMessage());
-            e.printStackTrace();
         } finally {
             try {
                 clientSocket.close();
+                System.out.println("Connessione con il client chiusa.");
             } catch (IOException e) {
                 System.err.println("Errore durante la chiusura del socket: " + e.getMessage());
             }
